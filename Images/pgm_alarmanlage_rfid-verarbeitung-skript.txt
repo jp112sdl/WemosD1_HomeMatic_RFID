@@ -1,0 +1,18 @@
+SONST-Skript:
+string incoming = dom.GetObject("RFID_command").State();
+
+if (incoming != "") {
+  boolean isSet = false;
+  string command = incoming.StrValueByIndex(";", 0);
+  string rfid = incoming.StrValueByIndex(";", 1);
+  dom.GetObject("RFID_last").State(rfid);
+  var allowed_rfids = dom.GetObject("RFID_allowed").ValueList();
+  string allowed_rfid;
+  foreach(allowed_rfid, allowed_rfids.Split(";")) {
+    if (rfid == allowed_rfid) { 
+      dom.GetObject("Alarmanlage_wird_scharf").State(command);
+      isSet = true;
+    }
+  }
+dom.GetObject("RFID_command").State("");
+}

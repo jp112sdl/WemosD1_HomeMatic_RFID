@@ -1,0 +1,2 @@
+DANN-Skript:
+dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("echo 2 | /usr/bin/socat - udp-sendto:<ip-des-wemos>:6673");
