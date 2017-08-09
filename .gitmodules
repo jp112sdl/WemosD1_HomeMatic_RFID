@@ -1,0 +1,9 @@
+[submodule "libraries/WiFiManager"]
+	path = libraries/WiFiManager
+	url = https://github.com/jp112sdl/WiFiManager.git
+[submodule "libraries/rfid"]
+	path = libraries/rfid
+	url = https://github.com/miguelbalboa/rfid.git
+[submodule "libraries/ArduinoJson"]
+	path = libraries/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson.git
