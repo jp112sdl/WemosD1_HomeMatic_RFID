@@ -10,7 +10,7 @@
 
 #define SS_PIN              D8
 #define RST_PIN             D3
-#define BUZZER_PIN          D0
+#define BUZZER_PIN          D1
 #define SWITCHPIN           D2
 #define LEDPIN              D4
 
@@ -66,7 +66,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 void setup() {
   pinMode(BUZZER_PIN, OUTPUT);
-  digitalWrite(BUZZER_PIN, HIGH);
+  digitalWrite(BUZZER_PIN, LOW);
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
@@ -227,9 +227,9 @@ void beep(int msec) {
 void beep(int msec, int interval) {
   if ((millis() - oldBeepMillis) > interval) {
     oldBeepMillis = millis();
-    digitalWrite(BUZZER_PIN, LOW);
-    delay(msec);
     digitalWrite(BUZZER_PIN, HIGH);
+    delay(msec);
+    digitalWrite(BUZZER_PIN, LOW);
   }
 }
 
