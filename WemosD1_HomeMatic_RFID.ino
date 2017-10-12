@@ -24,11 +24,11 @@
 #define UDPPORT             6673
 
 struct hmconfig_t {
-  char CCUIP[IPSIZE]                           = "";
-  char VAR_RFID_command[CCUVARSIZE]            = "";
-  char VAR_Alarm_scharfschaltbar[CCUVARSIZE]   = "";
-  char VAR_Alarmanlage_scharf[CCUVARSIZE]      = "";
-  char VAR_Alarmanlage_wird_scharf[CCUVARSIZE] = "";
+  char CCUIP[IPSIZE]                                = "";
+  char VAR_RFID_command[CCUVARSIZE]                 = "";
+  char VAR_Alarmanlage_scharf[CCUVARSIZE]           = "";
+  char VAR_Alarmanlage_wird_scharf[CCUVARSIZE]      = "";
+  char VAR_Alarmanlage_scharfschaltbar[CCUVARSIZE]  = "";
 } HomeMaticConfig;
 
 struct rfid_t {
@@ -123,7 +123,7 @@ void loop() {
     if (RFID.detectCount == RFIDDETECTLOOPS) {
       Serial.println("ChipID = " + String(RFIDDETECTLOOPS) + "  " + RFID.chipId);
       //prüfen, ob sich Alarm scharf schalten lässt
-      if (getStateCCU(String(HomeMaticConfig.VAR_Alarm_scharfschaltbar), "State") == "true") {
+      if (getStateCCU(String(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar), "State") == "true") {
         Serial.println("Scharfschaltbar!");
         Systemzustand.Scharfschaltbar = true;
         //Sende Befehl zum Scharfschalten

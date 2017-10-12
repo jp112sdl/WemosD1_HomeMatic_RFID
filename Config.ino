@@ -23,7 +23,7 @@ bool loadSystemConfig() {
           ((json["CCUIP"]).as<String>()).toCharArray(HomeMaticConfig.CCUIP, IPSIZE);
 
           ((json["VAR_COMMAND"]).as<String>()).toCharArray(HomeMaticConfig.VAR_RFID_command, CCUVARSIZE);
-          ((json["VAR_SCHARFSCHALTBAR"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarm_scharfschaltbar, CCUVARSIZE);
+          ((json["VAR_SCHARFSCHALTBAR"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar, CCUVARSIZE);
           ((json["VAR_SCHARF"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_scharf, CCUVARSIZE);
           ((json["VAR_WIRD_SCHARF"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_wird_scharf, CCUVARSIZE);
           
@@ -54,7 +54,7 @@ bool saveSystemConfig() {
   json["CCUIP"] = HomeMaticConfig.CCUIP;
 
   json["VAR_COMMAND"] = HomeMaticConfig.VAR_RFID_command;
-  json["VAR_SCHARFSCHALTBAR"] = HomeMaticConfig.VAR_Alarm_scharfschaltbar;
+  json["VAR_SCHARFSCHALTBAR"] = HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar;
   json["VAR_SCHARF"] = HomeMaticConfig.VAR_Alarmanlage_scharf;
   json["VAR_WIRD_SCHARF"] = HomeMaticConfig.VAR_Alarmanlage_wird_scharf;
 
