@@ -37,7 +37,7 @@ bool doWifiConnect() {
     wifiManager.setSaveConfigCallback(saveConfigCallback);
     WiFiManagerParameter custom_ccuIP("ccu", "IP der CCU2", HomeMaticConfig.CCUIP, IPSIZE);
     WiFiManagerParameter custom_rfidcommand("RFID_command", "Variable RFID Command", HomeMaticConfig.VAR_RFID_command, CCUVARSIZE);
-    WiFiManagerParameter custom_alarmscharfschaltbar("Alarm_scharfschaltbar", "Variable Alarmanlage scharfschaltbar", HomeMaticConfig.VAR_Alarm_scharfschaltbar, CCUVARSIZE);
+    WiFiManagerParameter custom_alarmscharfschaltbar("Alarm_scharfschaltbar", "Variable Alarmanlage scharfschaltbar", HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar, CCUVARSIZE);
     WiFiManagerParameter custom_alarmanlagescharf("Alarmanlage_scharf", "Variable Alarmanlage scharf", HomeMaticConfig.VAR_Alarmanlage_scharf, CCUVARSIZE);
     WiFiManagerParameter custom_alarmanlagewirdscharf("Alarmanlage_wird_scharf", "Variable Alarmanlage wird scharf", HomeMaticConfig.VAR_Alarmanlage_wird_scharf, CCUVARSIZE);
 
@@ -94,7 +94,7 @@ bool doWifiConnect() {
 
       strcpy(HomeMaticConfig.CCUIP, custom_ccuIP.getValue());
       strcpy(HomeMaticConfig.VAR_RFID_command, custom_rfidcommand.getValue());
-      strcpy(HomeMaticConfig.VAR_Alarm_scharfschaltbar, custom_alarmscharfschaltbar.getValue());
+      strcpy(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar, custom_alarmscharfschaltbar.getValue());
       strcpy(HomeMaticConfig.VAR_Alarmanlage_scharf, custom_alarmanlagescharf.getValue());
       strcpy(HomeMaticConfig.VAR_Alarmanlage_wird_scharf, custom_alarmanlagewirdscharf.getValue());
 
