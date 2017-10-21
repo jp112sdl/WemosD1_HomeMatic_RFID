@@ -139,6 +139,7 @@ void loop() {
       }
       RFID.chipId = "";
       if (Systemzustand.Scharfschaltbar == true) {
+        delay(150); // <- Wartepause wegen lahmer CCU2, bei RaspberryMatic nicht erforderlich
         //anschließend prüfen, ob Anlage scharf geschaltet wird
         if (getStateCCU(String(HomeMaticConfig.VAR_Alarmanlage_wird_scharf), "State") == "true") {
           digitalWrite(LED_BUILTIN, LOW);
@@ -164,6 +165,7 @@ void loop() {
         //Sende Befehl für unscharf
         setStateCCU(HomeMaticConfig.VAR_RFID_command, "\"0;" + RFID.chipId + "\"");
         RFID.chipId = "";
+        delay(150); // <- Wartepause wegen lahmer CCU2, bei RaspberryMatic nicht erforderlich
         //Prüfe, ob tatsächlich unscharf
         if (getStateCCU(HomeMaticConfig.VAR_Alarmanlage_scharf, "State") == "false") {
           digitalWrite(LED_BUILTIN, HIGH);
