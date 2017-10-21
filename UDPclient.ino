@@ -10,9 +10,9 @@ String handleUDP() {
     }
     Serial.printf("UDP packet contents: %s\n", UDPClient.incomingPacket);
 
-    UDPClient.UDP.beginPacket(UDPClient.UDP.remoteIP(), UDPClient.UDP.remotePort());
-    UDPClient.UDP.write("ACK");
-    UDPClient.UDP.endPacket();
+    //UDPClient.UDP.beginPacket(UDPClient.UDP.remoteIP(), UDPClient.UDP.remotePort());
+    //UDPClient.UDP.write("ACK");
+    //UDPClient.UDP.endPacket();
 
     String message = String(UDPClient.incomingPacket);
     message.trim();

@@ -121,7 +121,7 @@ void loop() {
     RFID.chipId = result1 + result2;
     //Wenn Chip LANGE gehalten wird
     if (RFID.detectCount == RFIDDETECTLOOPS) {
-      Serial.println("Chip LoopCount = " + String(RFIDDETECTLOOPS) + "  " + RFID.chipId);
+      Serial.println("\nLONG HOLD (" + String(RFID.detectCount) + ")  " + RFID.chipId);
       //prüfen, ob sich Alarm scharf schalten lässt
       if (getStateCCU(String(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar), "State") == "true") {
         Serial.println("Scharfschaltbar!");
@@ -160,8 +160,8 @@ void loop() {
     RFID.noDetectCount++;
     if (RFID.noDetectCount == 4) {
       //Wenn Chip KURZ gehalten wird
-      if (RFID.detectCount > 0 && RFID.detectCount <= (RFIDDETECTLOOPS - 1) && RFID.chipId != "") {
-        Serial.println("Chip LoopCount <= " + String(RFIDDETECTLOOPS) + " " + RFID.chipId);
+      if (RFID.detectCount > 0 && RFID.detectCount < (RFIDDETECTLOOPS) && RFID.chipId != "") {
+        Serial.println("\nSHORT HOLD (" + String(RFID.detectCount) + ") " + RFID.chipId);
         //Sende Befehl für unscharf
         setStateCCU(HomeMaticConfig.VAR_RFID_command, "\"0;" + RFID.chipId + "\"");
         RFID.chipId = "";
