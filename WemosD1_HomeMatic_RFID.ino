@@ -23,6 +23,8 @@
 #define CONFIGPORTALTIMEOUT 180
 #define UDPPORT             6673
 
+enum rfid_mode_e { RM_MFRC522, RM_RDM6300 };
+
 struct hmconfig_t {
   char CCUIP[IPSIZE]                                = "";
   char VAR_RFID_command[CCUVARSIZE]                 = "";
@@ -35,6 +37,7 @@ struct rfid_t {
   int detectCount   = 0;
   int noDetectCount = 0;
   String chipId     = "";
+  byte Mode = RM_RDM6300;
 } RFID;
 
 struct systemzustand_t {
@@ -61,13 +64,17 @@ struct udp_t {
 
 unsigned long oldStandbyBlinkMillis = 0;
 unsigned long oldBeepMillis = 0;
+unsigned long lastRDM6300ChipIdMillis = 0;
+
+String result1 = "";
+String result2 = "";
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 void setup() {
   pinMode(BUZZER_PIN, OUTPUT);
   digitalWrite(BUZZER_PIN, LOW);
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
   pinMode(SWITCHPIN, INPUT_PULLUP);
@@ -110,12 +117,35 @@ void loop() {
     oldStandbyBlinkMillis = millis();
   if (oldBeepMillis > millis())
     oldBeepMillis = millis();
-  String result1 = handleRFID();
-  String result2 = handleRFID();
+
+  if (RFID.Mode == RM_MFRC522) {
+    result1 = handleMFRC522();
+    result2 = handleMFRC522();
+  }
+
+  if (RFID.Mode == RM_RDM6300) {
+    delay(20);
+
+    String rdm_result = handleRDM6300();
+    if (rdm_result.length() > 10) {
+      result1 = rdm_result;
+      Serial.println("RDM6300: " + result1);
+      delay(20);
+      lastRDM6300ChipIdMillis = millis();
+    }
+
+    if (millis() - lastRDM6300ChipIdMillis > 200) {
+      if (lastRDM6300ChipIdMillis > 0)
+        Serial.println("lastRDM6300ChipIdMillis > 200");
+      lastRDM6300ChipIdMillis = 0;
+      result1 = "";
+    }
+  }
 
   if (result1 != result2) {
     RFID.detectCount++;
     if (RFID.detectCount == 1) {
+      Serial.println("BEEP");
       beep(70);
     }
     RFID.chipId = result1 + result2;
@@ -207,10 +237,30 @@ void loop() {
   if (Systemzustand.AlarmAusgeloest) beep(50, 250);
 }
 
-String handleRFID() {
+String handleMFRC522() {
   if (!mfrc522.PICC_IsNewCardPresent()) return "";
   if (!mfrc522.PICC_ReadCardSerial()) return "";
   return printHex(mfrc522.uid.uidByte, mfrc522.uid.size);
+}
+
+String handleRDM6300() {
+  if (Serial.available()) {
+    String rdm6300_serial = "";
+    while (Serial.available()) {
+      char inChr = Serial.read();
+      switch (inChr) {
+        case 0x02:
+          rdm6300_serial = "";
+        case 0x03:
+          break;
+        default:
+          rdm6300_serial += inChr;
+          break;
+      }
+    }
+    return rdm6300_serial;
+  }
+  return "";
 }
 
 String printHex(byte *buffer, byte bufferSize) {
