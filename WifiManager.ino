@@ -42,10 +42,15 @@ bool doWifiConnect() {
     WiFiManagerParameter custom_alarmanlagewirdscharf("Alarmanlage_wird_scharf", "Variable Alarmanlage wird scharf", HomeMaticConfig.VAR_Alarmanlage_wird_scharf, CCUVARSIZE);
 
 
+    char*chrUseRDM6300 = "0";
+    if (RFID.Mode) chrUseRDM6300 =  "1" ;
+    WiFiManagerParameter custom_rfidmode("rfidmode", "RDM6300 verwenden ", chrUseRDM6300, 8, 1);
+    
     WiFiManagerParameter custom_IP("custom_IP", "IP-Adresse", (String(WemosNetConfig.IP) != "0.0.0.0") ? WemosNetConfig.IP : "", IPSIZE);
     WiFiManagerParameter custom_NETMASK("custom_NETMASK", "Netzmaske",  (String(WemosNetConfig.NETMASK) != "0.0.0.0") ? WemosNetConfig.NETMASK : "", IPSIZE);
     WiFiManagerParameter custom_GW("custom_GW", "Gateway",  (String(WemosNetConfig.GW) != "0.0.0.0") ? WemosNetConfig.GW : "", IPSIZE);
     WiFiManagerParameter custom_text("<br/><br>Statische IP (wenn leer, dann DHCP):");
+    wifiManager.addParameter(&custom_rfidmode);
     wifiManager.addParameter(&custom_ccuIP);
     wifiManager.addParameter(&custom_rfidcommand);
     wifiManager.addParameter(&custom_alarmscharfschaltbar);
@@ -97,6 +102,8 @@ bool doWifiConnect() {
       strcpy(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar, custom_alarmscharfschaltbar.getValue());
       strcpy(HomeMaticConfig.VAR_Alarmanlage_scharf, custom_alarmanlagescharf.getValue());
       strcpy(HomeMaticConfig.VAR_Alarmanlage_wird_scharf, custom_alarmanlagewirdscharf.getValue());
+
+      RFID.Mode = atoi(custom_rfidmode.getValue());
 
       saveSystemConfig();
 

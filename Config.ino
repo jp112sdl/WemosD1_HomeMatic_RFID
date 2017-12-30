@@ -26,7 +26,7 @@ bool loadSystemConfig() {
           ((json["VAR_SCHARFSCHALTBAR"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar, CCUVARSIZE);
           ((json["VAR_SCHARF"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_scharf, CCUVARSIZE);
           ((json["VAR_WIRD_SCHARF"]).as<String>()).toCharArray(HomeMaticConfig.VAR_Alarmanlage_wird_scharf, CCUVARSIZE);
-          
+          RFID.Mode = json["RFID_MODE"];          
         } else {
           Serial.println("\nERROR loading config");
         }
@@ -57,6 +57,7 @@ bool saveSystemConfig() {
   json["VAR_SCHARFSCHALTBAR"] = HomeMaticConfig.VAR_Alarmanlage_scharfschaltbar;
   json["VAR_SCHARF"] = HomeMaticConfig.VAR_Alarmanlage_scharf;
   json["VAR_WIRD_SCHARF"] = HomeMaticConfig.VAR_Alarmanlage_wird_scharf;
+  json["RFID_MODE"] = RFID.Mode;
 
   SPIFFS.remove("/" + configJsonFile);
   File configFile = SPIFFS.open("/" + configJsonFile, "w");

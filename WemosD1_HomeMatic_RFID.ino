@@ -37,7 +37,7 @@ struct rfid_t {
   int detectCount   = 0;
   int noDetectCount = 0;
   String chipId     = "";
-  byte Mode = RM_RDM6300;
+  byte Mode = RM_MFRC522;
 } RFID;
 
 struct systemzustand_t {
