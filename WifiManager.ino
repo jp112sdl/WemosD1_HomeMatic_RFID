@@ -11,7 +11,6 @@ bool doWifiConnect() {
 
   if (!startWifiManager && _ssid != "" && _psk != "" ) {
     Serial.println("Connecting WLAN the classic way...");
-    WiFi.disconnect();
     WiFi.mode(WIFI_STA);
     WiFi.begin(_ssid.c_str(), _psk.c_str());
     int waitCounter = 0;
