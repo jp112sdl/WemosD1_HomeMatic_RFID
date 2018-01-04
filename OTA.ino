@@ -1,4 +1,5 @@
 void startOTAhandling() {  
+  Serial.println("Start OTA Service.");
   ArduinoOTA.onStart([]() {
     Serial.println("Start updating");
   });
